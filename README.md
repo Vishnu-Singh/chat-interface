@@ -2,7 +2,7 @@ It is a chat-interface for LLM Model (Deepseek R1) via Ollama
 
 ## Getting Started
 ### Setup Ollama
-install [Ollama] (https://ollama.com/download) based on you OS.
+install [Ollama](https://ollama.com/download) based on you OS.
 
 ### Install deepseel-r1 
 ```
