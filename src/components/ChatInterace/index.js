@@ -1,11 +1,12 @@
-import dynamic from 'next/dynamic';
+'use client';
+
 import { Box } from '@mui/material';
+import dynamic from 'next/dynamic';
 import { ChatHeader } from './ChatHeader';
 import { InputArea } from './InputArea';
+import MessageList from './MessageList'; // Changed to direct import
 
-const MessageList = dynamic(() => import('./MessageList'), { ssr: false });
-
-export default function ChatInterface() {
+const ChatInterface = () => {
   return (
     <Box sx={{ 
       display: 'flex', 
@@ -19,4 +20,6 @@ export default function ChatInterface() {
       <InputArea />
     </Box>
   );
-}
+};
+
+export default ChatInterface;

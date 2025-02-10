@@ -34,7 +34,8 @@ export const useChat = () => {
           stream: true,
         }),
       });
-
+      
+      // console.log("Deepseek response: ",response)
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';

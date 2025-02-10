@@ -1,26 +1,10 @@
 import { ListItem, Paper, Typography } from '@mui/material';
-import dynamic from 'next/dynamic';
-
-const SyntaxHighlighter = dynamic(
-  () => import('react-syntax-highlighter').then(mod => mod.Prism),
-  { 
-    ssr: false,
-    loading: () => (
-      <Typography component="div" sx={{ color: 'text.secondary' }}>
-        Loading code...
-      </Typography>
-    )
-  }
-);
-
-const materialDark = dynamic(
-  () => import('react-syntax-highlighter/dist/esm/styles/prism').then(mod => mod.materialDark),
-  { ssr: false }
-);
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export const MessageItem = ({ content, role, error }) => {
   const renderMessageContent = (content) => {
-    // ... (same code block parsing logic as previous version)
+    // ... (keep existing code block parsing logic)
   };
 
   return (
