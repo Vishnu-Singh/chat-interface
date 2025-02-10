@@ -34,6 +34,6 @@ A modern, responsive chat interface for interacting with the **Deepseek R1 AI mo
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/deepseek-chat-interface.git
+   git clone https://github.com/Vishnu-Singh/chat-interface.git
    cd deepseek-chat-interface
 It is a chat-interface for LLM Model (Deepseek R1) via Ollama
