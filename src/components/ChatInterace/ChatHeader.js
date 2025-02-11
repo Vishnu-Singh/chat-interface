@@ -1,26 +1,20 @@
-import { AppBar, Box, Container, Typography } from '@mui/material';
+import { IconButton, Toolbar, Typography } from '@mui/material';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-export const ChatHeader = () => (
-  <AppBar 
-    position="static" 
-    color="inherit"
-    sx={{ 
-      boxShadow: 'none',
-      borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
-      backgroundColor: 'background.default'
-    }}
-  >
-    <Container maxWidth="lg">
-      <Box sx={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        minHeight: '60px',
-        padding: '0 1rem'
-      }}>
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Deepseek R1
-        </Typography>
-      </Box>
-    </Container>
-  </AppBar>
-);
+export const ChatHeader = ({ themeMode, toggleTheme, clearHistory }) => {
+  return (
+    <Toolbar>
+      <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        Deepseek R1 Chat
+      </Typography>
+      <IconButton onClick={clearHistory} color="inherit" title="Clear History">
+        <DeleteIcon />
+      </IconButton>
+      <IconButton onClick={toggleTheme} color="inherit" title="Toggle Theme">
+        {themeMode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
+    </Toolbar>
+  );
+};

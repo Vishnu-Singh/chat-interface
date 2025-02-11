@@ -2,8 +2,9 @@
 
 import { Box, Container, List } from '@mui/material';
 import { MessageItem } from './MessageItem';
-import { LoadingIndicator } from './LoadingIndicator';
+import LoadingIndicator  from './LoadingIndicator';
 import { useChat } from '../../hooks/useChat';
+
 
 const MessageList = () => {
   const { messages, loading, messagesEndRef } = useChat();

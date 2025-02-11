@@ -1,29 +1,30 @@
 import { useState, useRef, useEffect } from 'react';
 
 export const useChat = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    // Load messages from localStorage
+    const savedMessages = localStorage.getItem('chatHistory');
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
+  // Save messages to localStorage whenever they change
   useEffect(() => {
-    scrollToBottom();
+    localStorage.setItem('chatHistory', JSON.stringify(messages));
   }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim() || loading) return;
 
     const userMessage = { content: input, role: 'user' };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setLoading(true);
 
     try {
-      setMessages(prev => [...prev, { content: '', role: 'assistant' }]);
+      setMessages((prev) => [...prev, { content: '', role: 'assistant' }]);
 
       const response = await fetch('http://localhost:11434/api/generate', {
         method: 'POST',
@@ -34,8 +35,7 @@ export const useChat = () => {
           stream: true,
         }),
       });
-      
-      // console.log("Deepseek response: ",response)
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
@@ -43,7 +43,7 @@ export const useChat = () => {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         buffer += decoder.decode(value, { stream: true });
         const chunks = buffer.split('\n');
         buffer = chunks.pop() || '';
@@ -52,12 +52,12 @@ export const useChat = () => {
           if (chunk.trim()) {
             try {
               const parsed = JSON.parse(chunk);
-              setMessages(prev => {
+              setMessages((prev) => {
                 const lastMessage = prev[prev.length - 1];
                 const updatedContent = lastMessage.content + parsed.response;
                 return [
                   ...prev.slice(0, -1),
-                  { ...lastMessage, content: updatedContent }
+                  { ...lastMessage, content: updatedContent },
                 ];
               });
             } catch (err) {
@@ -68,11 +68,10 @@ export const useChat = () => {
       }
     } catch (error) {
       console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        content: 'Error communicating with the AI', 
-        role: 'assistant',
-        error: true
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        { content: 'Error communicating with the AI', role: 'assistant', error: true },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -84,6 +83,6 @@ export const useChat = () => {
     setInput,
     loading,
     handleSend,
-    messagesEndRef
+    messagesEndRef,
   };
 };
